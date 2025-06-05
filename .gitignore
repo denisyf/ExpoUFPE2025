@@ -33,3 +33,8 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# mosquitto
+data/
+node-red-data/**/*
+!node-red-data/flows.json

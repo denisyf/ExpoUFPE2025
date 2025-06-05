@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  # node-red instance
+  node-red:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: node-red
+    ports:
+      - "1880:1880" # default Node-RED port
+      - "1883:1883" # MQTT
+      - "1884:1884" # Websockets
+    volumes:
+      - ./node-red-data:/data:rw # specify the flow path
+    restart: unless-stopped
+
+# volumes for mapping data, config, and log
+volumes:
+  config:
+  data:
+  log:
+  node-red-data:
