@@ -36,10 +36,10 @@ const Config2 = () => {
         } else {
           // Valores padrão
           const defaultConfig = {
-            ip_address: "127.0.0.1",
+            ip_address: "192.168.0.15",
             port: "1884",
-            username: "thiago",
-            password: "mestre",
+            username: "admin",
+            password: "admin",
           };
           setBroker(defaultConfig);
           setUpdatedBroker(defaultConfig);

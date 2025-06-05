@@ -16,10 +16,10 @@ export default function Routes(){
         <Tab.Navigator
             screenOptions={{
                 tabBarStyle:{
-                    height: 55,
+                    height: 85,
                     backgroundColor: '#FFF',
                     borderTopColor: 'transparent',
-                    paddingBottom: 5,
+                    paddingBottom: 35,
                     paddingTop: 5
                 },
                 tabBarActiveTintColor: '#66BB9F',
