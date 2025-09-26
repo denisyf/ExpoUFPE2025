@@ -72,6 +72,7 @@ export default function Welcome() {
     const fetchBrokerData = async () => {
       try {
         const jsonValue = await AsyncStorage.getItem("@brokerConfig");
+        console.log(jsonValue);
         if (jsonValue != null) {
           const data = JSON.parse(jsonValue);
           setBroker(data);
@@ -205,7 +206,7 @@ export default function Welcome() {
         <Animatable.View animation="fadeInDown" delay={500}>
           <Image
             style={styles.logo}
-            source={require("../../assets/icon.png")}
+            source={require("../../../assets/icon.png")}
           />
         </Animatable.View>
         <Animatable.View
