@@ -1,4 +1,4 @@
-#Requisitos do Sistema
+ # Requisitos do Sistema
 1. Java 17 para o Minecraft + Launcher Minecraft
 2. Node + npm instalados para instalar dependências javascript para node-red e aplicativo
 3. Docker e docker-compose instalados no sistema para gerenciamento de containers do node-red
@@ -24,3 +24,4 @@
 4. Instalar Aplicativo "Expo Go" no telefone
 
 5. Usar comando de escanar QR Code e apontar para o código disponível no terminal
+
