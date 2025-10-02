@@ -203,7 +203,7 @@ const Config2 = () => {
               style={styles.button}
               onPress={handleUpdateBroker}
             >
-              <Text style={styles.buttonText}>Confirmar</Text>
+              <Text style={styles.buttonText}>Conectar</Text>
             </TouchableOpacity>
           </View>
         </Animatable.View>

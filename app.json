@@ -4,7 +4,7 @@
     "slug": "ExpoUFPE",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/logo_2025.png",
+    "icon": "./assets/icon_2025.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/logo_2025.png",
