@@ -14,7 +14,6 @@ import {
   Modal,
   LogBox,
 } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons";
 import * as Animatable from "react-native-animatable";
 import { Feather } from "@expo/vector-icons";
 
@@ -42,10 +41,6 @@ export default function Welcome() {
 
   const [modalVisibleTanque1, setModalVisibleTanque1] = useState(false);
   const [modalVisibleTanque2, setModalVisibleTanque2] = useState(false);
-
-  const [dropdown1Open, setDropdown1Open] = useState(false);
-  const [dropdown2Open, setDropdown2Open] = useState(false);
-  const [dropdown3Open, setDropdown3Open] = useState(false);
 
   const [broker, setBroker] = useState(null);
   const [client, setClient] = useState(null);
@@ -206,7 +201,7 @@ export default function Welcome() {
         <Animatable.View animation="fadeInDown" delay={500}>
           <Image
             style={styles.logo}
-            source={require("../../../assets/icon.png")}
+            source={require("../../../assets/logo_2025.png")}
           />
         </Animatable.View>
         <Animatable.View
@@ -219,322 +214,284 @@ export default function Welcome() {
       </View>
 
       <ScrollView contentContainerStyle={styles.containerForm}>
-        {/* Dropdown 1 - Cana-de-Açúcar */}
-        <TouchableOpacity onPress={() => setDropdown1Open(!dropdown1Open)}>
-          <View style={styles.dropdownHeader}>
-            <Text style={styles.dropdownText}>Colheita de Cana-de-Açúcar</Text>
-            <Icon
-              name={dropdown1Open ? "keyboard-arrow-up" : "keyboard-arrow-down"}
-              size={24}
-              color="#333"
-            />
-          </View>
-        </TouchableOpacity>
-        {dropdown1Open && (
-          <View style={styles.dropdownContent}>
-            <Text style={{ marginTop: 10 }}>Volume de produção:</Text>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: 15,
-              }}
-            >
-              <Image source={require("../../assets/Menu/cana.png")} />
-              <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                {value5} un.{"\n"} /seg
-              </Text>
+        {/* Widget 1 - Cana-de-Açúcar */}
+        <View style={styles.widget}>
+          <View style={styles.widgetHeader}>
+            <Image source={require("../../assets/Menu/cana.png")} style={styles.widgetIcon} />
+            <View style={styles.widgetTitleContainer}>
+              <Text style={styles.widgetTitle}>Cana-de-Açúcar</Text>
+              <Text style={styles.widgetSubtitle}>Colheita automática</Text>
             </View>
-            <Text>Liga/Desliga:</Text>
-            <View>
-              <View style={styles.switchContainer}>
-                <TouchableOpacity
-                  style={[
-                    styles.switchButton,
-                    styles.switchLeft,
-                    canaLigada && { backgroundColor: "#693B8F" },
-                  ]}
-                  onPress={() => [
-                    setCanaLigada(true),
-                    sendMqttMessage("sugar_enable", "true"),
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.switchText,
-                      canaLigada && { color: "#f0f0f0" },
-                      !canaLigada && { color: "#fff" },
-                    ]}
-                  >
-                    Ligar
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.switchButton,
-                    styles.switchRight,
-                    !canaLigada && { backgroundColor: "#693B8F" },
-                  ]}
-                  onPress={() => [
-                    setCanaLigada(false),
-                    sendMqttMessage("sugar_enable", "false"),
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.switchText,
-                      !canaLigada && { color: "#f0f0f0" },
-                    ]}
-                  >
-                    Desligar
-                  </Text>
-                </TouchableOpacity>
-              </View>
+            <View style={styles.widgetStatus}>
+              <View style={[styles.statusIndicator, canaLigada && styles.statusActive]} />
+              <Text style={styles.statusText}>{canaLigada ? 'ON' : 'OFF'}</Text>
             </View>
           </View>
-        )}
-
-        {/* Dropdown 2 - Cacau */}
-        <TouchableOpacity onPress={() => setDropdown2Open(!dropdown2Open)}>
-          <View style={styles.dropdownHeader}>
-            <Text style={styles.dropdownText}>Colheita de Cacau</Text>
-            <Icon
-              name={dropdown2Open ? "keyboard-arrow-up" : "keyboard-arrow-down"}
-              size={24}
-              color="#333"
-            />
-          </View>
-        </TouchableOpacity>
-        {dropdown2Open && (
-          <View style={styles.dropdownContent}>
-            <Text style={{ marginTop: 10 }}>Volume de produção:</Text>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: 15,
-              }}
-            >
-              <Image source={require("../../assets/Menu/cacau.png")} />
-              <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                {value6} un.{"\n"} /seg
-              </Text>
+          
+          <View style={styles.widgetContent}>
+            <View style={styles.productionInfo}>
+              <Text style={styles.productionLabel}>Produção atual:</Text>
+              <Text style={styles.productionValue}>{value5} un/seg</Text>
             </View>
-            <Text>Liga/Desliga:</Text>
-            <View>
-              <View style={styles.switchContainer}>
-                <TouchableOpacity
-                  style={[
-                    styles.switchButton,
-                    styles.switchLeft,
-                    cacauLigada && { backgroundColor: "#693B8F" },
-                  ]}
-                  onPress={() => [
-                    setCacauLigada(true),
-                    sendMqttMessage("cocoa_enable", "true"),
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.switchText,
-                      cacauLigada && { color: "#f0f0f0" },
-                      !cacauLigada && { color: "#fff" },
-                    ]}
-                  >
-                    Ligar
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.switchButton,
-                    styles.switchRight,
-                    !cacauLigada && { backgroundColor: "#693B8F" },
-                  ]}
-                  onPress={() => [
-                    setCacauLigada(false),
-                    sendMqttMessage("cocoa_enable", "false"),
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.switchText,
-                      !cacauLigada && { color: "#f0f0f0" },
-                    ]}
-                  >
-                    Desligar
-                  </Text>
-                </TouchableOpacity>
-              </View>
+            
+            <View style={styles.widgetSwitchContainer}>
+              <TouchableOpacity
+                style={[
+                  styles.widgetSwitchButton,
+                  styles.switchLeft,
+                  canaLigada && styles.widgetSwitchActive,
+                ]}
+                onPress={() => [
+                  setCanaLigada(true),
+                  sendMqttMessage("sugar_enable", "true"),
+                ]}
+              >
+                <Text style={[styles.widgetSwitchText, canaLigada && styles.widgetSwitchTextActive]}>
+                  Ligar
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.widgetSwitchButton,
+                  styles.switchRight,
+                  !canaLigada && styles.widgetSwitchActive,
+                ]}
+                onPress={() => [
+                  setCanaLigada(false),
+                  sendMqttMessage("sugar_enable", "false"),
+                ]}
+              >
+                <Text style={[styles.widgetSwitchText, !canaLigada && styles.widgetSwitchTextActive]}>
+                  Desligar
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
-        )}
-
-        {/* Dropdown 3 - Leite */}
-        <TouchableOpacity onPress={() => setDropdown3Open(!dropdown3Open)}>
-          <View style={styles.dropdownHeader}>
-            <Text style={styles.dropdownText}>Produção de Leite</Text>
-            <Icon
-              name={dropdown3Open ? "keyboard-arrow-up" : "keyboard-arrow-down"}
-              size={24}
-              color="#333"
-            />
-          </View>
-        </TouchableOpacity>
-        {dropdown3Open && (
-          <View style={styles.dropdownContent}>
-            <Text style={{ marginTop: 10 }}>Volume de produção:</Text>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: 15,
-              }}
-            >
-              <Image source={require("../../assets/Menu/leite.png")} />
-              <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                50 un.{"\n"} /seg
-              </Text>
-            </View>
-            <Text style={{ marginTop: 10 }}>Liga/Desliga:</Text>
-            <View>
-              <View style={styles.switchContainer}>
-                <TouchableOpacity
-                  style={[
-                    styles.switchButton,
-                    styles.switchLeft,
-                    leiteLigada && { backgroundColor: "#693B8F" },
-                  ]}
-                  onPress={() => [
-                    setLeiteLigada(true),
-                    sendMqttMessage("milk_enable", "true"),
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.switchText,
-                      leiteLigada && { color: "#f0f0f0" },
-                      !leiteLigada && { color: "#fff" },
-                    ]}
-                  >
-                    Ligar
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.switchButton,
-                    styles.switchRight,
-                    !leiteLigada && { backgroundColor: "#693B8F" },
-                  ]}
-                  onPress={() => [
-                    setLeiteLigada(false),
-                    sendMqttMessage("milk_enable", "false"),
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.switchText,
-                      !leiteLigada && { color: "#f0f0f0" },
-                    ]}
-                  >
-                    Desligar
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        )}
-        {/* Botões abaixo dos dropdowns */}
-        <View style={styles.dropdownHeader}>
-          <Text style={styles.dropdownText}>Armazenamento de Leite</Text>
-        </View>
-        <View style={styles.bannerControle}>
-          <TouchableOpacity onPress={openModalTanque1}>
-            <ImageBackground
-              source={require("../../assets/Menu/tanqueLeite.png")}
-              style={styles.controlButton}
-            />
-          </TouchableOpacity>
         </View>
 
-        <View style={styles.dropdownHeader}>
-          <Text style={styles.dropdownText}>Armazenamento de Chocolate</Text>
+        {/* Widget 2 - Cacau */}
+        <View style={styles.widget}>
+          <View style={styles.widgetHeader}>
+            <Image source={require("../../assets/Menu/cacau.png")} style={styles.widgetIcon} />
+            <View style={styles.widgetTitleContainer}>
+              <Text style={styles.widgetTitle}>Cacau</Text>
+              <Text style={styles.widgetSubtitle}>Colheita automática</Text>
+            </View>
+            <View style={styles.widgetStatus}>
+              <View style={[styles.statusIndicator, cacauLigada && styles.statusActive]} />
+              <Text style={styles.statusText}>{cacauLigada ? 'ON' : 'OFF'}</Text>
+            </View>
+          </View>
+          
+          <View style={styles.widgetContent}>
+            <View style={styles.productionInfo}>
+              <Text style={styles.productionLabel}>Produção atual:</Text>
+              <Text style={styles.productionValue}>{value6} un/seg</Text>
+            </View>
+            
+            <View style={styles.widgetSwitchContainer}>
+              <TouchableOpacity
+                style={[
+                  styles.widgetSwitchButton,
+                  styles.switchLeft,
+                  cacauLigada && styles.widgetSwitchActive,
+                ]}
+                onPress={() => [
+                  setCacauLigada(true),
+                  sendMqttMessage("cocoa_enable", "true"),
+                ]}
+              >
+                <Text style={[styles.widgetSwitchText, cacauLigada && styles.widgetSwitchTextActive]}>
+                  Ligar
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.widgetSwitchButton,
+                  styles.switchRight,
+                  !cacauLigada && styles.widgetSwitchActive,
+                ]}
+                onPress={() => [
+                  setCacauLigada(false),
+                  sendMqttMessage("cocoa_enable", "false"),
+                ]}
+              >
+                <Text style={[styles.widgetSwitchText, !cacauLigada && styles.widgetSwitchTextActive]}>
+                  Desligar
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-        <View style={styles.bannerControle}>
-          <TouchableOpacity onPress={openModalTanque2}>
-            <ImageBackground
-              source={require("../../assets/Menu/tanqueChoco.png")}
-              style={styles.controlButton}
-            />
-          </TouchableOpacity>
+
+        {/* Widget 3 - Leite */}
+        <View style={styles.widget}>
+          <View style={styles.widgetHeader}>
+            <Image source={require("../../assets/Menu/leite.png")} style={styles.widgetIcon} />
+            <View style={styles.widgetTitleContainer}>
+              <Text style={styles.widgetTitle}>Leite</Text>
+              <Text style={styles.widgetSubtitle}>Produção automática</Text>
+            </View>
+            <View style={styles.widgetStatus}>
+              <View style={[styles.statusIndicator, leiteLigada && styles.statusActive]} />
+              <Text style={styles.statusText}>{leiteLigada ? 'ON' : 'OFF'}</Text>
+            </View>
+          </View>
+          
+          <View style={styles.widgetContent}>
+            <View style={styles.productionInfo}>
+              <Text style={styles.productionLabel}>Produção atual:</Text>
+              <Text style={styles.productionValue}>50 un/seg</Text>
+            </View>
+            
+            <View style={styles.widgetSwitchContainer}>
+              <TouchableOpacity
+                style={[
+                  styles.widgetSwitchButton,
+                  styles.switchLeft,
+                  leiteLigada && styles.widgetSwitchActive,
+                ]}
+                onPress={() => [
+                  setLeiteLigada(true),
+                  sendMqttMessage("milk_enable", "true"),
+                ]}
+              >
+                <Text style={[styles.widgetSwitchText, leiteLigada && styles.widgetSwitchTextActive]}>
+                  Ligar
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.widgetSwitchButton,
+                  styles.switchRight,
+                  !leiteLigada && styles.widgetSwitchActive,
+                ]}
+                onPress={() => [
+                  setLeiteLigada(false),
+                  sendMqttMessage("milk_enable", "false"),
+                ]}
+              >
+                <Text style={[styles.widgetSwitchText, !leiteLigada && styles.widgetSwitchTextActive]}>
+                  Desligar
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
+
+        {/* Widget 4 - Tanque de Leite */}
+        <TouchableOpacity style={styles.tankWidget} onPress={openModalTanque1}>
+          <View style={styles.tankWidgetHeader}>
+            <View style={styles.tankImageContainer}>
+              <ImageBackground
+                source={require("../../assets/Menu/novoTanqueLeite.png")}
+                style={styles.tankImage}
+                imageStyle={styles.tankImageStyle}
+              />
+            </View>
+            <View style={styles.tankInfoContainer}>
+              <Text style={styles.tankTitle}>Tanque de Leite</Text>
+              <Text style={styles.tankSubtitle}>Armazenamento e controle</Text>
+              <View style={styles.tankLevelContainer}>
+                <Text style={styles.tankLevelLabel}>Nível atual:</Text>
+                <Text style={styles.tankLevelValue}>{value3}%</Text>
+              </View>
+            </View>
+            <View style={styles.tankStatusContainer}>
+              <View style={styles.tankLevelIndicator}>
+                <View style={[styles.tankLevelBar, { height: `${Math.min(value3, 100)}%` }]} />
+              </View>
+              <Text style={styles.tankModeText}>
+                {tanque1Ligada ? 'AUTO' : 'MANUAL'}
+              </Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+
+        {/* Widget 5 - Tanque de Chocolate */}
+        <TouchableOpacity style={styles.tankWidget} onPress={openModalTanque2}>
+          <View style={styles.tankWidgetHeader}>
+            <View style={styles.tankImageContainer}>
+              <ImageBackground
+                source={require("../../assets/Menu/novoTanqueChoco.png")}
+                style={styles.tankImage}
+                imageStyle={styles.tankImageStyle}
+              />
+            </View>
+            <View style={styles.tankInfoContainer}>
+              <Text style={styles.tankTitle}>Tanque de Chocolate</Text>
+              <Text style={styles.tankSubtitle}>Armazenamento e controle</Text>
+              <View style={styles.tankLevelContainer}>
+                <Text style={styles.tankLevelLabel}>Nível atual:</Text>
+                <Text style={styles.tankLevelValue}>{value4}%</Text>
+              </View>
+            </View>
+            <View style={styles.tankStatusContainer}>
+              <View style={styles.tankLevelIndicator}>
+                <View style={[
+                  styles.tankLevelBar, 
+                  { 
+                    height: `${Math.min(value4, 100)}%`,
+                    backgroundColor: '#8B4513'
+                  }
+                ]} />
+              </View>
+              <Text style={styles.tankModeText}>
+                {tanque2Ligada ? 'AUTO' : 'MANUAL'}
+              </Text>
+            </View>
+          </View>
+        </TouchableOpacity>
 
         {/* Modal para Tanque Leite */}
         <Modal
           visible={modalVisibleTanque1}
           transparent={true}
-          animationType="fade"
+          animationType="slide"
           onRequestClose={closeModal}
         >
           <View style={styles.modalBackground}>
-            <View style={styles.modalContent}>
-              <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
-                <Text
-                  style={{ fontSize: 16, color: "#fff", fontWeight: "bold" }}
-                >
-                  Confirmar
-                </Text>
-              </TouchableOpacity>
-              <Text style={styles.modalTextTitle}>Tanque de Leite</Text>
-              <Text style={styles.modalTextDescription}>
-                Gerenciamento do conjunto de sensores e atuadores do tanque.
-              </Text>
-              <Text
-                style={{
-                  position: "absolute",
-                  top: 110,
-                  left: 5,
-                  padding: 20,
-                }}
-              >
-                Nível dos tanques
-              </Text>
-              <View
-                style={{ flexDirection: "row", justifyContent: "space-araund" }}
-              >
-                <View style={styles.tank}>
-                  <View style={[styles.fill, { height: `${value3}%` }]} />
+            <View style={styles.modernModalContent}>
+              {/* Header do Modal */}
+              <View style={styles.modalHeader}>
+                <View style={styles.modalTitleContainer}>
+                  <Text style={styles.modalTitle}>Tanque de Leite</Text>
+                  <Text style={styles.modalSubtitle}>
+                    Gerenciamento completo do sistema
+                  </Text>
                 </View>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: "bold",
-                    top: 130,
-                    left: 30,
-                  }}
-                >
-                  {value3}%{"\n"}
-                </Text>
+                <TouchableOpacity onPress={closeModal} style={styles.modernCloseButton}>
+                  <Feather name="x" size={24} color="#666" />
+                </TouchableOpacity>
               </View>
-              <Text
-                style={{
-                  position: "absolute",
-                  top: 350,
-                  left: 5,
-                  padding: 20,
-                }}
-              >
-                Modo de operação:
-              </Text>
-              <View style={{ marginTop: 20 }}>
-                <View style={styles.switchContainer}>
+
+              {/* Seção do Nível */}
+              <View style={styles.modalSection}>
+                <Text style={styles.sectionTitle}>Nível Atual</Text>
+                <View style={styles.tankDisplayContainer}>
+                  <View style={styles.modernTank}>
+                    <View style={[styles.modernTankFill, { height: `${Math.min(value3, 100)}%` }]} />
+                    <Text style={styles.tankPercentage}>{value3}%</Text>
+                  </View>
+                  <View style={styles.tankInfo}>
+                    <Text style={styles.tankLabel}>Volume</Text>
+                    <Text style={styles.tankValue}>{value3}%</Text>
+                    <Text style={styles.tankStatus}>
+                      Status: {value3 > 80 ? 'Alto' : value3 > 50 ? 'Normal' : 'Baixo'}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+
+              {/* Seção do Modo de Operação */}
+              <View style={styles.modalSection}>
+                <Text style={styles.sectionTitle}>Modo de Operação</Text>
+                <View style={styles.modernSwitchContainer}>
                   <TouchableOpacity
                     style={[
-                      styles.switchButton,
+                      styles.modernSwitchButton,
                       styles.switchLeft,
-                      tanque1Ligada && { backgroundColor: "#693B8F" },
+                      tanque1Ligada && styles.modernSwitchActive,
                     ]}
                     onPress={() => {
                       setTanque1Ligada(true);
@@ -548,22 +505,15 @@ export default function Welcome() {
                       });
                     }}
                   >
-                    <Text
-                      style={[
-                        styles.switchText,
-                        tanque1Ligada && { color: "#f0f0f0" },
-                        !tanque1Ligada && { color: "#fff" },
-                      ]}
-                    >
+                    <Text style={[styles.modernSwitchText, tanque1Ligada && styles.modernSwitchTextActive]}>
                       Automático
                     </Text>
                   </TouchableOpacity>
-
                   <TouchableOpacity
                     style={[
-                      styles.switchButton,
+                      styles.modernSwitchButton,
                       styles.switchRight,
-                      !tanque1Ligada && { backgroundColor: "#693B8F" },
+                      !tanque1Ligada && styles.modernSwitchActive,
                     ]}
                     onPress={() => {
                       setTanque1Ligada(false);
@@ -577,105 +527,85 @@ export default function Welcome() {
                       });
                     }}
                   >
-                    <Text
-                      style={[
-                        styles.switchText,
-                        !tanque1Ligada && { color: "#f0f0f0" },
-                      ]}
-                    >
+                    <Text style={[styles.modernSwitchText, !tanque1Ligada && styles.modernSwitchTextActive]}>
                       Manual
                     </Text>
                   </TouchableOpacity>
                 </View>
               </View>
-              <View style={{ marginTop: 10 }}></View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  right: 48,
-                }}
-              >
-                <Text>Encher os tanques: </Text>
-                <Text style={{ fontWeight: "bold", fontSize: 16 }}>
-                  {" "}
-                  {(payload1.fill_speed * 100).toFixed(2)}L/s
-                </Text>
+
+              {/* Seção dos Controles */}
+              <View style={styles.modalSection}>
+                <Text style={styles.sectionTitle}>Controles do Sistema</Text>
+                
+                <View style={styles.sliderContainer}>
+                  <View style={styles.sliderHeader}>
+                    <Text style={styles.sliderLabel}>Velocidade de Enchimento</Text>
+                    <Text style={styles.sliderValue}>
+                      {(payload1.fill_speed * 100).toFixed(2)} L/s
+                    </Text>
+                  </View>
+                  <Slider
+                    maximumTrackTintColor="#e0e0e0"
+                    maximumValue={100}
+                    minimumTrackTintColor="#2196F3"
+                    minimumValue={0}
+                    onValueChange={(value) => {
+                      const rounded = Math.round(value);
+                      const scaledValue = Number((rounded / 100).toFixed(2));
+                      setValue1(scaledValue);
+                      setPayload1((prevPayload) => {
+                        const updatedPayload = {
+                          ...prevPayload,
+                          fill_speed: scaledValue,
+                        };
+                        handleSliderChange(updatedPayload, "milk_tank_config");
+                        return updatedPayload;
+                      });
+                    }}
+                    orientation="horizontal"
+                    step={1}
+                    style={styles.modernSlider}
+                    thumbStyle={styles.modernThumb}
+                    trackStyle={styles.modernTrack}
+                    value={Math.round(payload1.fill_speed * 100)}
+                  />
+                </View>
+
+                <View style={styles.sliderContainer}>
+                  <View style={styles.sliderHeader}>
+                    <Text style={styles.sliderLabel}>Velocidade de Esvaziamento</Text>
+                    <Text style={styles.sliderValue}>
+                      {payload1.empty_speed.toFixed(2)} L/s
+                    </Text>
+                  </View>
+                  <Slider
+                    maximumTrackTintColor="#e0e0e0"
+                    maximumValue={100}
+                    minimumTrackTintColor="#FF5722"
+                    minimumValue={0}
+                    onValueChange={(value) => {
+                      const rounded = Math.round(value);
+                      const scaledValue = Number((rounded / 100).toFixed(2));
+                      setValue2(scaledValue);
+                      setPayload1((prevPayload) => {
+                        const updatedPayload = {
+                          ...prevPayload,
+                          empty_speed: scaledValue,
+                        };
+                        handleSliderChange(updatedPayload, "milk_tank_config");
+                        return updatedPayload;
+                      });
+                    }}
+                    orientation="horizontal"
+                    step={1}
+                    style={styles.modernSlider}
+                    thumbStyle={styles.modernThumb}
+                    trackStyle={styles.modernTrack}
+                    value={Math.round(payload1.empty_speed * 100)}
+                  />
+                </View>
               </View>
-              <Slider
-                maximumTrackTintColor="#ccc"
-                maximumValue={100}
-                minimumTrackTintColor="#693B8F"
-                minimumValue={0}
-                onSlidingComplete={() => console.log("onSlidingComplete()")}
-                onSlidingStart={() => console.log("onSlidingStart()")}
-                onValueChange={(value) => {
-                  const rounded = Math.round(value);
-                  const scaledValue = Number((rounded / 100).toFixed(2)); // Escala de 0-100 para 0-1
-                  setValue1(scaledValue); // Atualiza o estado visual com o valor escalado
-                  setPayload1((prevPayload) => {
-                    const updatedPayload = {
-                      ...prevPayload,
-                      fill_speed: scaledValue, // Atualiza o fill_speed no payload escalado
-                    };
-
-                    handleSliderChange(updatedPayload, "milk_tank_config"); // Envia o objeto atualizado com o valor escalado
-                    return updatedPayload; // Retorna o payload atualizado para o estado
-                  });
-                }}
-                orientation="horizontal"
-                step={1}
-                style={{ width: "80%" }}
-                thumbStyle={{ height: 20, width: 20 }}
-                thumbTintColor="#f0f0f0"
-                thumbTouchSize={{ width: 80, height: 80 }}
-                // trackStyle={{ height: 10, borderRadius: 20 }}
-                value={Math.round(payload1.fill_speed * 100)} // Exibe o valor de 0-1 como 0-100 no slider
-              />
-
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  right: 18,
-                }}
-              >
-                <Text>Esvaziamento dos tanques: </Text>
-                <Text style={{ fontWeight: "bold", fontSize: 16 }}>
-                  {" "}
-                  {payload1.empty_speed.toFixed(2)}L/s
-                </Text>
-              </View>
-              <Slider
-                maximumTrackTintColor="#ccc"
-                maximumValue={100}
-                minimumTrackTintColor="#693B8F"
-                minimumValue={0}
-                onSlidingComplete={() => console.log("onSlidingComplete()")}
-                onSlidingStart={() => console.log("onSlidingStart()")}
-                onValueChange={(value) => {
-                  const rounded = Math.round(value);
-                  const scaledValue = Number((rounded / 100).toFixed(2)); // Escala de 0-100 para 0-1
-                  setValue2(scaledValue); // Atualiza o estado visual com o valor escalado
-                  setPayload1((prevPayload) => {
-                    const updatedPayload = {
-                      ...prevPayload,
-                      empty_speed: scaledValue, // Atualiza o fill_speed no payload escalado
-                    };
-
-                    handleSliderChange(updatedPayload, "milk_tank_config"); // Envia o objeto atualizado com o valor escalado
-                    return updatedPayload; // Retorna o payload atualizado para o estado
-                  });
-                }}
-                orientation="horizontal"
-                step={1}
-                style={{ width: "80%" }}
-                thumbStyle={{ height: 20, width: 20 }}
-                thumbTintColor="#f0f0f0"
-                thumbTouchSize={{ width: 80, height: 80 }}
-                // trackStyle={{ height: 10, borderRadius: 20 }}
-                value={Math.round(payload1.empty_speed * 100)} // Exibe o valor de 0-1 como 0-100 no slider
-              />
             </View>
           </View>
         </Modal>
@@ -684,71 +614,57 @@ export default function Welcome() {
         <Modal
           visible={modalVisibleTanque2}
           transparent={true}
-          animationType="fade"
+          animationType="slide"
           onRequestClose={closeModal}
         >
           <View style={styles.modalBackground}>
-            <View style={styles.modalContent}>
-              <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
-                <Text
-                  style={{ fontSize: 16, color: "#fff", fontWeight: "bold" }}
-                >
-                  Confirmar
-                </Text>
-              </TouchableOpacity>
-              <Text style={styles.modalTextTitle}>Tanque de Chocolate</Text>
-              <Text style={styles.modalTextDescription}>
-                Gerenciamento do conjunto de sensores e atuadores do tanque.
-              </Text>
-              <Text
-                style={{
-                  position: "absolute",
-                  top: 110,
-                  left: 5,
-                  padding: 20,
-                }}
-              >
-                Nível dos tanques
-              </Text>
-              <View
-                style={{ flexDirection: "row", justifyContent: "space-araund" }}
-              >
-                <View style={styles.tank}>
-                  <View
-                    style={[
-                      styles.fill,
-                      { height: `${value4}%`, backgroundColor: "#904C04" },
-                    ]}
-                  />
+            <View style={styles.modernModalContent}>
+              {/* Header do Modal */}
+              <View style={styles.modalHeader}>
+                <View style={styles.modalTitleContainer}>
+                  <Text style={styles.modalTitle}>Tanque de Chocolate</Text>
+                  <Text style={styles.modalSubtitle}>
+                    Gerenciamento completo do sistema
+                  </Text>
                 </View>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: "bold",
-                    top: 130,
-                    left: 30,
-                  }}
-                >
-                  {value4}%{"\n"}
-                </Text>
+                <TouchableOpacity onPress={closeModal} style={styles.modernCloseButton}>
+                  <Feather name="x" size={24} color="#666" />
+                </TouchableOpacity>
               </View>
-              <Text
-                style={{
-                  position: "absolute",
-                  top: 350,
-                  left: 5,
-                  padding: 20,
-                }}
-              >
-                Modo de operação:
-              </Text>
-              <View style={{ marginTop: 20 }}>
-                <View style={styles.switchContainer}>
+
+              {/* Seção do Nível */}
+              <View style={styles.modalSection}>
+                <Text style={styles.sectionTitle}>Nível Atual</Text>
+                <View style={styles.tankDisplayContainer}>
+                  <View style={styles.modernTank}>
+                    <View style={[
+                      styles.modernTankFill, 
+                      { 
+                        height: `${Math.min(value4, 100)}%`,
+                        backgroundColor: '#8B4513'
+                      }
+                    ]} />
+                    <Text style={styles.tankPercentage}>{value4}%</Text>
+                  </View>
+                  <View style={styles.tankInfo}>
+                    <Text style={styles.tankLabel}>Volume</Text>
+                    <Text style={[styles.tankValue, { color: '#8B4513' }]}>{value4}%</Text>
+                    <Text style={styles.tankStatus}>
+                      Status: {value4 > 80 ? 'Alto' : value4 > 50 ? 'Normal' : 'Baixo'}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+
+              {/* Seção do Modo de Operação */}
+              <View style={styles.modalSection}>
+                <Text style={styles.sectionTitle}>Modo de Operação</Text>
+                <View style={styles.modernSwitchContainer}>
                   <TouchableOpacity
                     style={[
-                      styles.switchButton,
+                      styles.modernSwitchButton,
                       styles.switchLeft,
-                      tanque2Ligada && { backgroundColor: "#693B8F" },
+                      tanque2Ligada && styles.modernSwitchActive,
                     ]}
                     onPress={() => {
                       setTanque2Ligada(true);
@@ -762,22 +678,15 @@ export default function Welcome() {
                       });
                     }}
                   >
-                    <Text
-                      style={[
-                        styles.switchText,
-                        tanque2Ligada && { color: "#f0f0f0" },
-                        !tanque2Ligada && { color: "#fff" },
-                      ]}
-                    >
+                    <Text style={[styles.modernSwitchText, tanque2Ligada && styles.modernSwitchTextActive]}>
                       Automático
                     </Text>
                   </TouchableOpacity>
-
                   <TouchableOpacity
                     style={[
-                      styles.switchButton,
+                      styles.modernSwitchButton,
                       styles.switchRight,
-                      !tanque2Ligada && { backgroundColor: "#693B8F" },
+                      !tanque2Ligada && styles.modernSwitchActive,
                     ]}
                     onPress={() => {
                       setTanque2Ligada(false);
@@ -786,109 +695,91 @@ export default function Welcome() {
                         mode: "manual",
                       }));
                       sendMqttMessage("chocolate_tank_config", {
-                        ...payload1,
+                        ...payload2,
                         mode: "manual",
                       });
                     }}
                   >
-                    <Text
-                      style={[
-                        styles.switchText,
-                        !tanque2Ligada && { color: "#f0f0f0" },
-                      ]}
-                    >
+                    <Text style={[styles.modernSwitchText, !tanque2Ligada && styles.modernSwitchTextActive]}>
                       Manual
                     </Text>
                   </TouchableOpacity>
                 </View>
               </View>
-              <View style={{ marginTop: 10 }}></View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  right: 48,
-                }}
-              >
-                <Text>Encher os tanques: </Text>
-                <Text style={{ fontWeight: "bold", fontSize: 16 }}>
-                  {" "}
-                  {payload2.fill_speed}L/s
-                </Text>
-              </View>
-              <Slider
-                maximumTrackTintColor="#ccc"
-                maximumValue={100}
-                minimumTrackTintColor="#693B8F"
-                minimumValue={0}
-                onSlidingComplete={() => console.log("onSlidingComplete()")}
-                onSlidingStart={() => console.log("onSlidingStart()")}
-                onValueChange={(value) => {
-                  const rounded = Math.round(value);
-                  const scaledValue = Number((rounded / 100).toFixed(2)); // Escala de 0-100 para 0-1
-                  setValue7(scaledValue); // Atualiza o estado visual com o valor escalado
-                  setPayload2((prevPayload) => {
-                    const updatedPayload = {
-                      ...prevPayload,
-                      fill_speed: scaledValue, // Atualiza o fill_speed no payload escalado
-                    };
 
-                    handleSliderChange(updatedPayload, "chocolate_tank_config"); // Envia o objeto atualizado com o valor escalado
-                    return updatedPayload; // Retorna o payload atualizado para o estado
-                  });
-                }}
-                orientation="horizontal"
-                step={1}
-                style={{ width: "80%" }}
-                thumbStyle={{ height: 20, width: 20 }}
-                thumbTintColor="#f0f0f0"
-                thumbTouchSize={{ width: 80, height: 80 }}
-                // trackStyle={{ height: 10, borderRadius: 20 }}
-                value={Math.round(payload2.fill_speed * 100)} // Exibe o valor de 0-1 como 0-100 no slider
-              />
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  right: 18,
-                }}
-              >
-                <Text>Esvaziamento dos tanques: </Text>
-                <Text style={{ fontWeight: "bold", fontSize: 16 }}>
-                  {" "}
-                  {payload2.empty_speed.toFixed(2)}L/s
-                </Text>
-              </View>
-              <Slider
-                maximumTrackTintColor="#ccc"
-                maximumValue={100}
-                minimumTrackTintColor="#693B8F"
-                minimumValue={0}
-                onSlidingComplete={() => console.log("onSlidingComplete()")}
-                onSlidingStart={() => console.log("onSlidingStart()")}
-                onValueChange={(value) => {
-                  const rounded = Math.round(value);
-                  const scaledValue = Number((rounded / 100).toFixed(2)); // Escala de 0-100 para 0-1
-                  setValue8(scaledValue); // Atualiza o estado visual com o valor escalado
-                  setPayload2((prevPayload) => {
-                    const updatedPayload = {
-                      ...prevPayload,
-                      empty_speed: scaledValue, // Atualiza o fill_speed no payload escalado
-                    };
+              {/* Seção dos Controles */}
+              <View style={styles.modalSection}>
+                <Text style={styles.sectionTitle}>Controles do Sistema</Text>
+                
+                <View style={styles.sliderContainer}>
+                  <View style={styles.sliderHeader}>
+                    <Text style={styles.sliderLabel}>Velocidade de Enchimento</Text>
+                    <Text style={styles.sliderValue}>
+                      {(payload2.fill_speed * 100).toFixed(2)} L/s
+                    </Text>
+                  </View>
+                  <Slider
+                    maximumTrackTintColor="#e0e0e0"
+                    maximumValue={100}
+                    minimumTrackTintColor="#8B4513"
+                    minimumValue={0}
+                    onValueChange={(value) => {
+                      const rounded = Math.round(value);
+                      const scaledValue = Number((rounded / 100).toFixed(2));
+                      setValue7(scaledValue);
+                      setPayload2((prevPayload) => {
+                        const updatedPayload = {
+                          ...prevPayload,
+                          fill_speed: scaledValue,
+                        };
+                        handleSliderChange(updatedPayload, "chocolate_tank_config");
+                        return updatedPayload;
+                      });
+                    }}
+                    orientation="horizontal"
+                    step={1}
+                    style={styles.modernSlider}
+                    thumbStyle={styles.modernThumb}
+                    trackStyle={styles.modernTrack}
+                    value={Math.round(payload2.fill_speed * 100)}
+                  />
+                </View>
 
-                    handleSliderChange(updatedPayload, "chocolate_tank_config"); // Envia o objeto atualizado com o valor escalado
-                    return updatedPayload; // Retorna o payload atualizado para o estado
-                  });
-                }}
-                orientation="horizontal"
-                step={1}
-                style={{ width: "80%" }}
-                thumbStyle={{ height: 20, width: 20 }}
-                thumbTintColor="#f0f0f0"
-                thumbTouchSize={{ width: 80, height: 80 }}
-                // trackStyle={{ height: 10, borderRadius: 20 }}
-                value={Math.round(payload1.empty_speed * 100)} // Exibe o valor de 0-1 como 0-100 no slider
-              />
+                <View style={styles.sliderContainer}>
+                  <View style={styles.sliderHeader}>
+                    <Text style={styles.sliderLabel}>Velocidade de Esvaziamento</Text>
+                    <Text style={styles.sliderValue}>
+                      {payload2.empty_speed.toFixed(2)} L/s
+                    </Text>
+                  </View>
+                  <Slider
+                    maximumTrackTintColor="#e0e0e0"
+                    maximumValue={100}
+                    minimumTrackTintColor="#FF5722"
+                    minimumValue={0}
+                    onValueChange={(value) => {
+                      const rounded = Math.round(value);
+                      const scaledValue = Number((rounded / 100).toFixed(2));
+                      setValue8(scaledValue);
+                      setPayload2((prevPayload) => {
+                        const updatedPayload = {
+                          ...prevPayload,
+                          empty_speed: scaledValue,
+                        };
+                        handleSliderChange(updatedPayload, "chocolate_tank_config");
+                        return updatedPayload;
+                      });
+                    }}
+                    orientation="horizontal"
+                    step={1}
+                    style={styles.modernSlider}
+                    thumbStyle={styles.modernThumb}
+                    trackStyle={styles.modernTrack}
+                    value={Math.round(payload2.empty_speed * 100)}
+                  />
+                </View>
+              </View>
+
             </View>
           </View>
         </Modal>
@@ -1123,5 +1014,380 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#f0f0f0", // Cor padrão do nível do tanque
     transition: "background-color 0.5s ease", // Para animação suave (se suportado)
+  },
+  // Estilos dos Widgets
+  widget: {
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    marginVertical: 8,
+    marginHorizontal: 20,
+    padding: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    width: "90%",
+  },
+  widgetHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 15,
+  },
+  widgetIcon: {
+    width: 40,
+    height: 40,
+    marginRight: 15,
+  },
+  widgetTitleContainer: {
+    flex: 1,
+  },
+  widgetTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  widgetSubtitle: {
+    fontSize: 12,
+    color: "#666",
+    marginTop: 2,
+  },
+  widgetStatus: {
+    alignItems: "center",
+  },
+  statusIndicator: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: "#ccc",
+    marginBottom: 4,
+  },
+  statusActive: {
+    backgroundColor: "#4CAF50",
+  },
+  statusText: {
+    fontSize: 10,
+    color: "#666",
+    fontWeight: "bold",
+  },
+  widgetContent: {
+    borderTopWidth: 1,
+    borderTopColor: "#f0f0f0",
+    paddingTop: 15,
+  },
+  productionInfo: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 15,
+    paddingHorizontal: 10,
+  },
+  productionLabel: {
+    fontSize: 14,
+    color: "#666",
+  },
+  productionValue: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  widgetSwitchContainer: {
+    flexDirection: "row",
+    borderRadius: 25,
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+  },
+  widgetSwitchButton: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#f8f8f8",
+  },
+  widgetSwitchActive: {
+    backgroundColor: "#693B8F",
+  },
+  widgetSwitchText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#666",
+  },
+  widgetSwitchTextActive: {
+    color: "#fff",
+  },
+  // Estilos dos Widgets dos Tanques
+  tankWidget: {
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    marginVertical: 8,
+    marginHorizontal: 20,
+    padding: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    width: "90%",
+  },
+  tankWidgetHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: 100,
+  },
+  tankImageContainer: {
+    width: 80,
+    height: 80,
+    marginRight: 15,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f8f9fa",
+    borderRadius: 12,
+  },
+  tankImage: {
+    width: 60,
+    height: 60,
+  },
+  tankImageStyle: {
+    borderRadius: 8,
+  },
+  tankInfoContainer: {
+    flex: 1,
+    paddingRight: 10,
+  },
+  tankTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 4,
+  },
+  tankSubtitle: {
+    fontSize: 12,
+    color: "#666",
+    marginBottom: 8,
+  },
+  tankLevelContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  tankLevelLabel: {
+    fontSize: 14,
+    color: "#666",
+    marginRight: 8,
+  },
+  tankLevelValue: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#2196F3",
+  },
+  tankStatusContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  tankLevelIndicator: {
+    width: 20,
+    height: 60,
+    backgroundColor: "#e0e0e0",
+    borderRadius: 10,
+    justifyContent: "flex-end",
+    overflow: "hidden",
+    marginBottom: 8,
+  },
+  tankLevelBar: {
+    width: "100%",
+    backgroundColor: "#2196F3",
+    borderRadius: 10,
+    minHeight: 2,
+  },
+  tankModeText: {
+    fontSize: 10,
+    fontWeight: "bold",
+    color: "#666",
+    textAlign: "center",
+  },
+  // Estilos dos Modais Modernos
+  modernModalContent: {
+    width: "90%",
+    maxWidth: 400,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 0,
+    maxHeight: "85%",
+  },
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f0f0f0",
+  },
+  modalTitleContainer: {
+    flex: 1,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 4,
+  },
+  modalSubtitle: {
+    fontSize: 14,
+    color: "#666",
+  },
+  modernCloseButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#f8f9fa",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalSection: {
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f0f0f0",
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#333",
+    marginBottom: 15,
+  },
+  tankDisplayContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  modernTank: {
+    width: 80,
+    height: 120,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: "#ddd",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    position: "relative",
+    overflow: "hidden",
+  },
+  modernTankFill: {
+    width: "100%",
+    backgroundColor: "#2196F3",
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
+    minHeight: 4,
+  },
+  tankPercentage: {
+    position: "absolute",
+    top: "50%",
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "#333",
+    zIndex: 1,
+  },
+  tankInfo: {
+    flex: 1,
+    marginLeft: 20,
+  },
+  tankLabel: {
+    fontSize: 14,
+    color: "#666",
+    marginBottom: 4,
+  },
+  tankValue: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#2196F3",
+    marginBottom: 4,
+  },
+  tankStatus: {
+    fontSize: 12,
+    color: "#666",
+  },
+  modernSwitchContainer: {
+    flexDirection: "row",
+    backgroundColor: "#f8f9fa",
+    borderRadius: 12,
+    padding: 4,
+  },
+  modernSwitchButton: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modernSwitchActive: {
+    backgroundColor: "#2196F3",
+    shadowColor: "#2196F3",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  modernSwitchText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#666",
+  },
+  modernSwitchTextActive: {
+    color: "#fff",
+  },
+  sliderContainer: {
+    marginBottom: 20,
+  },
+  sliderHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  sliderLabel: {
+    fontSize: 14,
+    color: "#666",
+    fontWeight: "500",
+  },
+  sliderValue: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  modernSlider: {
+    height: 40,
+  },
+  modernThumb: {
+    width: 24,
+    height: 24,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  modernTrack: {
+    height: 6,
+    borderRadius: 3,
+  },
+  confirmButton: {
+    backgroundColor: "#2196F3",
+    margin: 20,
+    paddingVertical: 16,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#2196F3",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  confirmButtonText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#fff",
   },
 });

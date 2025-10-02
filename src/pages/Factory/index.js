@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons";
 import * as Animatable from "react-native-animatable";
 import { FontAwesome6 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -16,8 +15,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Paho from "paho-mqtt";
 
 export default function Welcome() {
-  const [dropdown1Open, setDropdown1Open] = useState(false);
-  const [dropdown2Open, setDropdown2Open] = useState(false);
+  const [broker, setBroker] = useState(null);
+  const [client, setClient] = useState(null);
+  const [connected, setConnected] = useState(false);
 
   const estados = [
     { id: 1, nome: "I0.0", ligado: true },
@@ -34,10 +34,6 @@ export default function Welcome() {
     { id: 4, nome: "Q0.3", ligado: true },
     { id: 5, nome: "Q0.4", ligado: false },
   ];
-
-  const [broker, setBroker] = useState(null);
-  const [client, setClient] = useState(null);
-  const [connected, setConnected] = useState(false);
 
   useEffect(() => {
     const fetchBrokerData = async () => {
@@ -143,7 +139,7 @@ export default function Welcome() {
         <Animatable.View animation="fadeInDown" delay={500}>
           <Image
             style={styles.logo}
-            source={require("../../../assets/icon.png")}
+            source={require("../../../assets/logo_2025.png")}
           />
         </Animatable.View>
         <Animatable.View
@@ -161,59 +157,79 @@ export default function Welcome() {
       </View>
 
       <ScrollView contentContainerStyle={styles.containerForm}>
-        {/* Dropdown 1 */}
-        <TouchableOpacity onPress={() => setDropdown1Open(!dropdown1Open)}>
-          <View style={styles.dropdownHeader}>
-            <Text style={styles.dropdownText}>Entradas Lógicas</Text>
-            <Icon
-              name={dropdown1Open ? "keyboard-arrow-up" : "keyboard-arrow-down"}
-              size={24}
-              color="#333"
-            />
+        {/* Widget 1 - Entradas Lógicas */}
+        <View style={styles.widget}>
+          <View style={styles.widgetHeader}>
+            <View style={styles.widgetIconContainer}>
+              <FontAwesome6 name="arrow-right-to-bracket" size={24} color="#2196F3" />
+            </View>
+            <View style={styles.widgetTitleContainer}>
+              <Text style={styles.widgetTitle}>Entradas Lógicas</Text>
+              <Text style={styles.widgetSubtitle}>Estados das entradas digitais</Text>
+            </View>
+            <View style={styles.widgetStatus}>
+              <View style={[styles.statusIndicator, styles.statusActive]} />
+              <Text style={styles.statusText}>ATIVO</Text>
+            </View>
           </View>
-        </TouchableOpacity>
-        {dropdown1Open && (
-          <View style={styles.dropdownContent}>
-            {estados.map((estado) => (
-              <View key={estado.id} style={styles.circleContainer}>
-                <View
-                  style={[
-                    styles.circle,
-                    { backgroundColor: estado.ligado ? "#66BB9F" : "#D6D6D6" },
-                  ]}
-                />
-                <Text style={styles.circleText}>{estado.nome}</Text>
-              </View>
-            ))}
+          
+          <View style={styles.widgetContent}>
+            <View style={styles.ioContainer}>
+              {estados.map((estado) => (
+                <View key={estado.id} style={styles.ioItem}>
+                  <View style={[
+                    styles.ioIndicator,
+                    { backgroundColor: estado.ligado ? "#4CAF50" : "#ccc" }
+                  ]} />
+                  <Text style={styles.ioLabel}>{estado.nome}</Text>
+                  <Text style={[
+                    styles.ioStatus,
+                    { color: estado.ligado ? "#4CAF50" : "#999" }
+                  ]}>
+                    {estado.ligado ? "ON" : "OFF"}
+                  </Text>
+                </View>
+              ))}
+            </View>
           </View>
-        )}
+        </View>
 
-        {/* Dropdown 2 */}
-        <TouchableOpacity onPress={() => setDropdown2Open(!dropdown2Open)}>
-          <View style={styles.dropdownHeader}>
-            <Text style={styles.dropdownText}>Saídas Lógicas</Text>
-            <Icon
-              name={dropdown2Open ? "keyboard-arrow-up" : "keyboard-arrow-down"}
-              size={24}
-              color="#333"
-            />
+        {/* Widget 2 - Saídas Lógicas */}
+        <View style={styles.widget}>
+          <View style={styles.widgetHeader}>
+            <View style={styles.widgetIconContainer}>
+              <FontAwesome6 name="arrow-right-from-bracket" size={24} color="#FF5722" />
+            </View>
+            <View style={styles.widgetTitleContainer}>
+              <Text style={styles.widgetTitle}>Saídas Lógicas</Text>
+              <Text style={styles.widgetSubtitle}>Estados das saídas digitais</Text>
+            </View>
+            <View style={styles.widgetStatus}>
+              <View style={[styles.statusIndicator, styles.statusActive]} />
+              <Text style={styles.statusText}>ATIVO</Text>
+            </View>
           </View>
-        </TouchableOpacity>
-        {dropdown2Open && (
-          <View style={styles.dropdownContent}>
-            {estados2.map((estado) => (
-              <View key={estado.id} style={styles.circleContainer}>
-                <View
-                  style={[
-                    styles.circle,
-                    { backgroundColor: estado.ligado ? "#66BB9F" : "#D6D6D6" },
-                  ]}
-                />
-                <Text style={styles.circleText}>{estado.nome}</Text>
-              </View>
-            ))}
+          
+          <View style={styles.widgetContent}>
+            <View style={styles.ioContainer}>
+              {estados2.map((estado) => (
+                <View key={estado.id} style={styles.ioItem}>
+                  <View style={[
+                    styles.ioIndicator,
+                    { backgroundColor: estado.ligado ? "#4CAF50" : "#ccc" }
+                  ]} />
+                  <Text style={styles.ioLabel}>{estado.nome}</Text>
+                  <Text style={[
+                    styles.ioStatus,
+                    { color: estado.ligado ? "#4CAF50" : "#999" }
+                  ]}>
+                    {estado.ligado ? "ON" : "OFF"}
+                  </Text>
+                </View>
+              ))}
+            </View>
           </View>
-        )}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -287,5 +303,97 @@ const styles = StyleSheet.create({
   circleText: {
     marginTop: 5,
     textAlign: "center",
+  },
+  // Estilos dos Widgets
+  widget: {
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    marginVertical: 8,
+    marginHorizontal: 20,
+    padding: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    width: "90%",
+  },
+  widgetHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 15,
+  },
+  widgetIconContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: "#f8f9fa",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 15,
+  },
+  widgetTitleContainer: {
+    flex: 1,
+  },
+  widgetTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  widgetSubtitle: {
+    fontSize: 12,
+    color: "#666",
+    marginTop: 2,
+  },
+  widgetStatus: {
+    alignItems: "center",
+  },
+  statusIndicator: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: "#ccc",
+    marginBottom: 4,
+  },
+  statusActive: {
+    backgroundColor: "#4CAF50",
+  },
+  statusText: {
+    fontSize: 10,
+    color: "#666",
+    fontWeight: "bold",
+  },
+  widgetContent: {
+    borderTopWidth: 1,
+    borderTopColor: "#f0f0f0",
+    paddingTop: 15,
+  },
+  ioContainer: {
+    flexDirection: "column",
+    gap: 12,
+  },
+  ioItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: "#f8f9fa",
+    borderRadius: 8,
+  },
+  ioIndicator: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    marginRight: 12,
+  },
+  ioLabel: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#333",
+  },
+  ioStatus: {
+    fontSize: 12,
+    fontWeight: "bold",
   },
 });

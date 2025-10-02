@@ -100,7 +100,7 @@ const Config2 = () => {
         <Animatable.View animation="fadeInDown" delay={500}>
           <Image
             style={styles.logo}
-            source={require("../../../assets/icon.png")}
+            source={require("../../../assets/logo_2025.png")}
           />
         </Animatable.View>
         <Animatable.View
